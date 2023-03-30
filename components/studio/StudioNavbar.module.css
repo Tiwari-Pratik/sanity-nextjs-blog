@@ -1,0 +1,15 @@
+.studioNav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #1a1a1a;
+  color: #ffeeff;
+}
+
+.arrow {
+  width: 24px;
+  height: 24px;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  color: #ffeeff;
+}
