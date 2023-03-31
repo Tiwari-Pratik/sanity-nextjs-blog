@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  /* background-color: red; */
+  /* justify-items: stretch; */
+  /* align-items: stretch; */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
+  grid-gap: 2rem;
+}
+
+.postContainer {
+  margin: 1rem 2rem;
+  padding: 1rem 2rem;
+}
+.post {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.postImage {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 3em;
+  object-position: center;
+}

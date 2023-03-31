@@ -1,3 +1,4 @@
+// import { definePreview } from "next-sanity/preview";
 import { definePreview } from "next-sanity/preview";
 import { projectId, dataset } from "./sanity.client";
 
@@ -13,4 +14,5 @@ if (!projectId || !dataset) {
 export const usePreview = definePreview({
   projectId,
   dataset,
+  onPublicAccessOnly,
 });

@@ -1,11 +1,14 @@
 import Layout from "@/components/blog/layout/Layout";
-import { Fragment } from "react";
+import { Fragment, lazy } from "react";
 import { groq } from "next-sanity";
 import { client } from "../lib/sanity.client";
 import { PreviewSuspense } from "next-sanity/preview";
 import BlogList from "../components/bloglists/BlogList";
-import PreviewBlogList from "../components/bloglists/PreviewBlogList";
-import type { SanityDocument } from "@sanity/client";
+// import PreviewBlogList from "../components/bloglists/PreviewBlogList";
+
+const PreviewBlogList = lazy(
+  () => import("../components/bloglists/PreviewBlogList")
+);
 
 const query = groq`
 *[_type=='post'] {
@@ -15,20 +18,17 @@ categories[]->
 } | order(_createdAt desc)
 
 `;
-export const getStaticProps = async ({ preview = false }) => {
+export const getServerSideProps = async ({ preview = false }) => {
   if (preview) {
     return { props: { preview } };
   }
 
-  const data: SanityDocument[] = await client.fetch(query);
+  const data: Post[] = await client.fetch(query);
   console.log(data);
   return { props: { preview, data } };
 };
 
-export default function Home(props: {
-  preview: boolean;
-  data?: SanityDocument[];
-}) {
+export default function Home(props: { preview: boolean; data?: Post[] }) {
   if (props.preview) {
     return (
       <PreviewSuspense fallback="Loading...">
