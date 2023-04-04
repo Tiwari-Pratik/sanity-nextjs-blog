@@ -2,7 +2,7 @@ import urlFor from "@/lib/urlFor";
 import Image from "next/image";
 import styles from "./BlogList.module.css";
 import Link from "next/link";
-import { ArrowRightIcon, ArrowUpRightIcon } from "@heroicons/react/24/solid";
+import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 
 interface BlogListProps {
   posts: Post[];
