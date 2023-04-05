@@ -32,6 +32,7 @@ export default function Home(props: { preview: boolean; data?: Post[] }) {
   if (props.preview) {
     return (
       <PreviewSuspense fallback="Loading...">
+        <Layout />
         <p>In preview mode</p>
         <PreviewBlogList query={query} />
       </PreviewSuspense>

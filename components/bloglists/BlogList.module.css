@@ -94,6 +94,12 @@
   border-radius: 10px;
   color: #eef;
   font-size: 1rem;
+  transition: transform 100ms;
+}
+
+.readMore:hover {
+  cursor: pointer;
+  transform: translateY(-10px);
 }
 .readMoreArr {
   width: 20px;
