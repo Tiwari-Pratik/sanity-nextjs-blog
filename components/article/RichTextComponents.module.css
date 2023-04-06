@@ -1,0 +1,36 @@
+.imageDiv {
+  margin: 1em 1em;
+  padding: 1em 2em;
+}
+
+.image {
+  margin: 0.5em auto;
+  display: block;
+  object-fit: cover;
+  width: 70%;
+}
+
+.ulList {
+  list-style: square;
+  border-left: 2px solid #ad8722;
+  padding: 0em 2em;
+}
+
+.olList {
+  list-style: decimal;
+  border-left: 2px solid #ad8722;
+  padding: 0em 2em;
+}
+
+.listitem {
+  margin: 1em 0;
+}
+
+.link {
+  text-decoration: underline;
+  color: #23ad25;
+}
+
+.link:hover {
+  color: #1245ad;
+}

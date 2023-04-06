@@ -1,3 +1,4 @@
+import Article from "@/components/article/Article";
 import Layout from "@/components/blog/layout/Layout";
 import { client } from "@/lib/sanity.client";
 import { GetServerSideProps } from "next";
@@ -8,11 +9,11 @@ interface PageProps {
   data: Post;
 }
 const PostPage = ({ data }: PageProps) => {
-  console.log(data);
+  // console.log(data);
   return (
     <Fragment>
       <Layout />
-      <div>Post page: {data.title}</div>
+      <Article post={data} />
     </Fragment>
   );
 };

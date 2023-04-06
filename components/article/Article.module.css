@@ -1,0 +1,35 @@
+.article {
+  width: 70%;
+  /* background-color: #ccc; */
+  margin: 1em auto;
+  padding: 2em;
+}
+
+.coverSection {
+  /* background-color: red; */
+  padding: 1em 2em;
+  display: flex;
+}
+
+.coverImage {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 5px 5px 0px #1a1a1a, 10px 10px 15px #333;
+  border-radius: 10px;
+}
+
+.titleSection {
+  /* background-color: yellow; */
+  padding: 1em 2em;
+}
+
+.title {
+  font-size: 2em;
+}
+
+.blogPost {
+  padding: 1em 2em;
+  border-radius: 1em;
+  box-shadow: 3px 3px 10px #ccc, -3px -3px 10px #ccc;
+}

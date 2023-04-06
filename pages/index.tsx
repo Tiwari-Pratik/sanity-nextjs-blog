@@ -24,7 +24,7 @@ export const getServerSideProps = async ({ preview = false }) => {
   }
 
   const data: Post[] = await client.fetch(query);
-  console.log(data);
+  // console.log(data);
   return { props: { preview, data } };
 };
 
