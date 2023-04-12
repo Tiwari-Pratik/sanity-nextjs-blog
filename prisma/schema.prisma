@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String         @unique
+  postSlug             String         @unique
+  followerIds          String[]       @db.ObjectId
+  followingIds         String[]       @db.ObjectId
+  peopleFollowingUser  Person[]       @relation("PersontoPerson", fields: [followerIds], references: [id])
+  peopleFollowedByUser Person[]       @relation("PersontoPerson", fields: [followingIds], references: [id])
+  orgIds               String[]       @db.ObjectId
+  organizations        Organization[] @relation(fields: [orgIds], references: [id])
+}
+
+model Organization {
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  name              String         @unique
+  postSlug          String         @unique
+  followerIds       String[]       @db.ObjectId
+  followingIds      String[]       @db.ObjectId
+  orgsFollowingOrg  Organization[] @relation("OrgToOrg", fields: [followerIds], references: [id])
+  orgsFollowedByOrg Organization[] @relation("OrgToOrg", fields: [followingIds], references: [id])
+  persons           Person[]       @relation(fields: [personIds], references: [id])
+  personIds         String[]       @db.ObjectId
+}

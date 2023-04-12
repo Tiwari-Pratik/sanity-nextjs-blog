@@ -6,11 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:dev": "npx dotenv -e .env.local -- prisma migrate dev",
+    "db:push": "npx dotenv -e .env.local -- prisma db push",
+    "migrate:reset": "npx dotenv -e .env.local -- prisma migrate reset",
+    "db:seed": "npx dotenv -e .env.local -- prisma db seed",
+    "prisma:generate": "npx dotenv -e .env.local -- prisma generate",
+    "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
+    "production:build": "npx prisma generate && npx prisma migrate deploy && next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
     "@portabletext/react": "^2.0.2",
+    "@prisma/client": "^4.12.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.0.0",
     "@types/node": "18.15.11",
@@ -31,6 +39,8 @@
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^2.0.1",
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "dotenv-cli": "^7.2.1",
+    "prisma": "^4.12.0"
   }
 }
