@@ -22,8 +22,6 @@ model Person {
   organizations        Organization[] @relation(fields: [orgIds], references: [id])
   eventIds             String[]       @default([]) @db.ObjectId
   events               Event[]        @relation(fields: [eventIds], references: [id])
-  mediaIds             String[]       @default([]) @db.ObjectId
-  medias               Media[]        @relation(fields: [mediaIds], references: [id])
 }
 
 model Organization {
@@ -38,8 +36,6 @@ model Organization {
   personIds         String[]       @default([]) @db.ObjectId
   eventIds          String[]       @default([]) @db.ObjectId
   events            Event[]        @relation(fields: [eventIds], references: [id])
-  mediaIds          String[]       @default([]) @db.ObjectId
-  medias            Media[]        @relation(fields: [mediaIds], references: [id])
 }
 
 model Event {
@@ -54,22 +50,5 @@ model Event {
   personIds            String[]       @default([]) @db.ObjectId
   orgIds               String[]       @default([]) @db.ObjectId
   organizations        Organization[] @relation(fields: [orgIds], references: [id])
-  mediaIds             String[]       @default([]) @db.ObjectId
-  medias               Media[]        @relation(fields: [mediaIds], references: [id])
 }
 
-model Media {
-  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
-  name                 String         @unique
-  postSlug             String         @unique
-  followerIds          String[]       @default([]) @db.ObjectId
-  followingIds         String[]       @default([]) @db.ObjectId
-  mediaFollowingMedia  Media[]        @relation("mediaToMedia", fields: [followerIds], references: [id])
-  mediaFollowedByMedia Media[]        @relation("mediaToMedia", fields: [followingIds], references: [id])
-  persons              Person[]       @relation(fields: [personIds], references: [id])
-  personIds            String[]       @default([]) @db.ObjectId
-  orgIds               String[]       @default([]) @db.ObjectId
-  organizations        Organization[] @relation(fields: [orgIds], references: [id])
-  eventIds             String[]       @default([]) @db.ObjectId
-  events               Event[]        @relation(fields: [eventIds], references: [id])
-}

@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em 1em;
+  margin: 1em auto;
+  width: 60%;
+}
+
+.origSelect {
+  display: none;
+}
+.users {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1em;
+  justify-items: center;
+  align-items: center;
+  margin: 1em 0;
+}
+
+.users .item {
+  background-color: #c1c2c1;
+  padding: 1em 2em;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 0.5em;
+  font-size: 1rem;
+}
+
+.users .itemClicked {
+  background-color: #12daa2;
+}
+
+.users .item input {
+  display: none;
+}
+
+.users .item label {
+  cursor: pointer;
+}
