@@ -1,0 +1,15 @@
+.nodeContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1em 2em;
+  background-color: green;
+}
+
+.nodeBtn {
+  padding: 1em 2em;
+  background-color: #d1d2d3;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
