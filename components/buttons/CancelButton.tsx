@@ -8,11 +8,9 @@ const CancelButton = (props: btnProps) => {
     props.clickActivity();
   };
   return (
-    <div className={styles.nodeContainer}>
-      <button className={`${styles.cancelBtn}`} onClick={clickHandler}>
-        X Cancel
-      </button>
-    </div>
+    <button className={`${styles.cancelBtn}`} onClick={clickHandler}>
+      X Cancel
+    </button>
   );
 };
 export default CancelButton;

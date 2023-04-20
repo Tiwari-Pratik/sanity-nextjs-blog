@@ -1,8 +1,9 @@
-import { MouseEvent, useState } from "react";
+import { FormEvent, MouseEvent, useRef, useState } from "react";
 import styles from "./NodeForm.module.css";
 import CancelButton from "../buttons/CancelButton";
 import NodeButton from "../buttons/NodeButton";
 import useSWR from "swr";
+import axios from "axios";
 
 const NodeForm = () => {
   const [nodeClicked, setNodeClicked] = useState<boolean>(false);
@@ -11,10 +12,14 @@ const NodeForm = () => {
   const { data: userData } = useSWR("/api/persons", fetcher);
   const { data: eventData } = useSWR("/api/events", fetcher);
   const { data: orgData } = useSWR("/api/organizations", fetcher);
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const slugRef = useRef<HTMLInputElement | null>(null);
+
+  let associatedPeople: string[] = [];
 
   const nodeBtnhandler = () => {
     setNodeClicked(true);
-    console.log(userData);
+    // console.log(userData);
   };
   const cancelBtnhandler = () => {
     setNodeClicked(false);
@@ -28,6 +33,15 @@ const NodeForm = () => {
     console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
+    if (inputEl.value !== "") {
+      associatedPeople.push(inputEl.name);
+    } else {
+      const index = associatedPeople.indexOf(inputEl.name);
+      if (index > -1) {
+        // only splice array when item is found
+        associatedPeople.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    }
   };
 
   const orgClickHandler = (event: MouseEvent): void => {
@@ -51,51 +65,57 @@ const NodeForm = () => {
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
   };
+
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+    const enteredName = nameRef.current?.value;
+    const enteredSlug = slugRef.current?.value;
+    const nickName = enteredName?.toLowerCase().replaceAll(" ", "");
+    const postData = {
+      name: enteredName,
+      nickName,
+      postSlug: enteredSlug,
+      peopleFollowedByUser: associatedPeople,
+    };
+    const resData = await axios.post("/api/persons", postData);
+    console.log(resData);
+    setNodeClicked(false);
+  };
   return (
     <div className={styles.formContainer}>
-      <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
+      <div className={styles.nodeContainer}>
+        <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
+      </div>
       <div>
         {!nodeClicked && <p>Node Data Preview</p>}
         {nodeClicked && (
           <div>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={submitHandler}>
               <label htmlFor="name">Name</label>
-              <input type="text" name="name" id="name" />
+              <input type="text" name="name" id="name" ref={nameRef} />
               <label htmlFor="slug">Post Slug</label>
-              <input type="text" name="slug" id="slug" />
+              <input type="text" name="slug" id="slug" ref={slugRef} />
               <div>
                 <label htmlFor="user-select">Associated people</label>
                 {userData.data.length === 0 && <p>No Person data available</p>}
                 {userData.data.length > 0 && (
                   <div className={styles.users}>
-                    <div
-                      className={`${styles.item}`}
-                      onClick={userClickHandler}
-                    >
-                      <input type="checkbox" value="" name="pieter" />
-                      <label>Pieter</label>
-                    </div>
-                    <div
-                      className={`${styles.item}`}
-                      onClick={userClickHandler}
-                    >
-                      <input type="checkbox" value="" name="bhinder" />
-                      <label>Bhinder</label>
-                    </div>
-                    <div
-                      className={`${styles.item}`}
-                      onClick={userClickHandler}
-                    >
-                      <input type="checkbox" value="" name="manisha" />
-                      <label>Manisha</label>
-                    </div>
-                    <div
-                      className={`${styles.item}`}
-                      onClick={userClickHandler}
-                    >
-                      <input type="checkbox" value="" name="Ubaid" />
-                      <label>Ubaid</label>
-                    </div>
+                    {userData.data.map((data: any) => {
+                      return (
+                        <div
+                          className={`${styles.item}`}
+                          onClick={userClickHandler}
+                          key={data.name}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -104,48 +124,58 @@ const NodeForm = () => {
                 {orgData.data.length === 0 && (
                   <p>No Organization data available</p>
                 )}
+
                 {orgData.data.length > 0 && (
                   <div className={styles.users}>
-                    <div className={`${styles.item}`} onClick={orgClickHandler}>
-                      <input type="checkbox" value="" name="ofmi" />
-                      <label>OFMI</label>
-                    </div>
-                    <div className={`${styles.item}`} onClick={orgClickHandler}>
-                      <input type="checkbox" value="" name="iamc" />
-                      <label>IAMC</label>
-                    </div>
-                    <div className={`${styles.item}`} onClick={orgClickHandler}>
-                      <input type="checkbox" value="" name="hfhr" />
-                      <label>HFHR</label>
-                    </div>
-                    <div className={`${styles.item}`} onClick={orgClickHandler}>
-                      <input type="checkbox" value="" name="jfa" />
-                      <label>JFA</label>
-                    </div>
+                    {orgData.data.map((data: any) => {
+                      return (
+                        <div
+                          className={`${styles.item}`}
+                          onClick={orgClickHandler}
+                          key={data.name}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
               <div>
                 <label htmlFor="user-select">Associated Events</label>
                 {eventData.data.length === 0 && <p>No Event data available</p>}
+
                 {eventData.data.length > 0 && (
                   <div className={styles.users}>
-                    <div
-                      className={`${styles.item}`}
-                      onClick={eventClickHandler}
-                    >
-                      <input type="checkbox" value="" name="dgh" />
-                      <label>Dismantling Global Hindutva</label>
-                    </div>
-                    <div className={`${styles.item}`} onClick={orgClickHandler}>
-                      <input type="checkbox" value="" name="iotb" />
-                      <label>India on the Brink</label>
-                    </div>
+                    {eventData.data.map((data: any) => {
+                      return (
+                        <div
+                          className={`${styles.item}`}
+                          onClick={eventClickHandler}
+                          key={data.name}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
+              <button type="submit">submit</button>
             </form>
-            <CancelButton clickActivity={cancelBtnhandler} />
+            <div className={styles.nodeContainer}>
+              <CancelButton clickActivity={cancelBtnhandler} />
+            </div>
           </div>
         )}
       </div>

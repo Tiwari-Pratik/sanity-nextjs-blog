@@ -13,6 +13,7 @@ datasource db {
 model Person {
   id                   String         @id @default(auto()) @map("_id") @db.ObjectId
   name                 String         @unique
+  nickName             String         @unique
   postSlug             String         @unique
   followerIds          String[]       @default([]) @db.ObjectId
   followingIds         String[]       @default([]) @db.ObjectId
@@ -27,6 +28,7 @@ model Person {
 model Organization {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
   name              String         @unique
+  nickName          String         @unique
   postSlug          String         @unique
   followerIds       String[]       @default([]) @db.ObjectId
   followingIds      String[]       @default([]) @db.ObjectId
@@ -41,6 +43,7 @@ model Organization {
 model Event {
   id                   String         @id @default(auto()) @map("_id") @db.ObjectId
   name                 String         @unique
+  nickName             String         @unique
   postSlug             String         @unique
   followerIds          String[]       @default([]) @db.ObjectId
   followingIds         String[]       @default([]) @db.ObjectId
@@ -51,4 +54,3 @@ model Event {
   orgIds               String[]       @default([]) @db.ObjectId
   organizations        Organization[] @relation(fields: [orgIds], references: [id])
 }
-
