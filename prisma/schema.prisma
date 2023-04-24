@@ -12,6 +12,7 @@ datasource db {
 
 model Person {
   id                   String         @id @default(auto()) @map("_id") @db.ObjectId
+  role                 String
   name                 String         @unique
   nickName             String         @unique
   postSlug             String         @unique
@@ -27,6 +28,7 @@ model Person {
 
 model Organization {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  role              String
   name              String         @unique
   nickName          String         @unique
   postSlug          String         @unique
@@ -42,6 +44,7 @@ model Organization {
 
 model Event {
   id                   String         @id @default(auto()) @map("_id") @db.ObjectId
+  role                 String
   name                 String         @unique
   nickName             String         @unique
   postSlug             String         @unique

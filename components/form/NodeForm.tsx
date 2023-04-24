@@ -9,13 +9,20 @@ const NodeForm = () => {
   const [nodeClicked, setNodeClicked] = useState<boolean>(false);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: userData } = useSWR("/api/persons", fetcher);
-  const { data: eventData } = useSWR("/api/events", fetcher);
-  const { data: orgData } = useSWR("/api/organizations", fetcher);
+  const { data: userData } = useSWR("/api/nodes/persons", fetcher);
+  const { data: eventData } = useSWR("/api/nodes/events", fetcher);
+  const { data: orgData } = useSWR("/api/nodes/organizations", fetcher);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const slugRef = useRef<HTMLInputElement | null>(null);
+  const roleRef = useRef<HTMLSelectElement | null>(null);
 
   let associatedPeople: string[] = [];
+
+  enum Role {
+    person = "PERSON",
+    organization = "ORGANIZATION",
+    event = "EVENT",
+  }
 
   const nodeBtnhandler = () => {
     setNodeClicked(true);
@@ -70,14 +77,28 @@ const NodeForm = () => {
     event.preventDefault();
     const enteredName = nameRef.current?.value;
     const enteredSlug = slugRef.current?.value;
+    const enteredRole = roleRef.current?.value;
+    console.log(typeof enteredRole);
     const nickName = enteredName?.toLowerCase().replaceAll(" ", "");
     const postData = {
       name: enteredName,
+      role: enteredRole,
       nickName,
       postSlug: enteredSlug,
       peopleFollowedByUser: associatedPeople,
     };
-    const resData = await axios.post("/api/persons", postData);
+    let resData;
+
+    if (enteredRole === Role.person) {
+      resData = await axios.post("/api/nodes/persons", postData);
+    }
+    if (enteredRole === Role.event) {
+      resData = await axios.post("/api/nodes/events", postData);
+    }
+    if (enteredRole === Role.organization) {
+      resData = await axios.post("/api/nodes/organizations", postData);
+    }
+
     console.log(resData);
     setNodeClicked(false);
   };
@@ -93,12 +114,18 @@ const NodeForm = () => {
             <form className={styles.form} onSubmit={submitHandler}>
               <label htmlFor="name">Name</label>
               <input type="text" name="name" id="name" ref={nameRef} />
+              <label htmlFor="role">Role</label>
+              <select name="role" id="role" ref={roleRef}>
+                <option value={Role.person}>person</option>
+                <option value={Role.organization}>organization</option>
+                <option value={Role.event}>event</option>
+              </select>
               <label htmlFor="slug">Post Slug</label>
               <input type="text" name="slug" id="slug" ref={slugRef} />
               <div>
                 <label htmlFor="user-select">Associated people</label>
-                {userData.data.length === 0 && <p>No Person data available</p>}
-                {userData.data.length > 0 && (
+                {userData.data?.length === 0 && <p>No Person data available</p>}
+                {userData.data?.length > 0 && (
                   <div className={styles.users}>
                     {userData.data.map((data: any) => {
                       return (
