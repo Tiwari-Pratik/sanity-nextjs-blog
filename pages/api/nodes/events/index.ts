@@ -8,8 +8,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       where: {
         role: "EVENT",
       },
+      select: {
+        name: true,
+        nickName: true,
+        role: true,
+      },
     });
-    console.log(events);
+    // console.log(events);
 
     res.status(200).json({ data: events });
   }
@@ -22,7 +27,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       postSlug: data.postSlug,
       nickName: data.nickName,
       persons: {
-        connect: data.peopleFollowedByUser.map((data: string) => {
+        connect: data.people.map((data: string) => {
+          return { nickName: data };
+        }),
+      },
+      eventFollowedByEvent: {
+        connect: data.events.map((data: string) => {
+          return { nickName: data };
+        }),
+      },
+      organizations: {
+        connect: data.orgs.map((data: string) => {
           return { nickName: data };
         }),
       },

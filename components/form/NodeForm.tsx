@@ -2,21 +2,42 @@ import { FormEvent, MouseEvent, useRef, useState } from "react";
 import styles from "./NodeForm.module.css";
 import CancelButton from "../buttons/CancelButton";
 import NodeButton from "../buttons/NodeButton";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import axios from "axios";
 
-const NodeForm = () => {
+interface formProps {
+  node: string | null;
+  role: string | null;
+}
+
+const NodeForm = ({ node, role }: formProps) => {
   const [nodeClicked, setNodeClicked] = useState<boolean>(false);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: userData } = useSWR("/api/nodes/persons", fetcher);
-  const { data: eventData } = useSWR("/api/nodes/events", fetcher);
-  const { data: orgData } = useSWR("/api/nodes/organizations", fetcher);
+  const { data: userData } = useSWR("/api/nodes/persons", fetcher, {
+    revalidateOnMount: true,
+  });
+  const { data: eventData } = useSWR("/api/nodes/events", fetcher, {
+    revalidateOnMount: true,
+  });
+  const { data: orgData } = useSWR("/api/nodes/organizations", fetcher, {
+    revalidateOnMount: true,
+  });
+
+  const { data: nodeData } = useSWR(
+    () => (node ? `/api/nodes/${node}?role=${role}` : null),
+    fetcher
+  );
+  console.log(nodeData);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const slugRef = useRef<HTMLInputElement | null>(null);
   const roleRef = useRef<HTMLSelectElement | null>(null);
 
   let associatedPeople: string[] = [];
+  let associatedEvents: string[] = [];
+  let associatedOrgs: string[] = [];
+
+  console.log("Form component rendered");
 
   enum Role {
     person = "PERSON",
@@ -60,6 +81,15 @@ const NodeForm = () => {
     console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
+    if (inputEl.value !== "") {
+      associatedOrgs.push(inputEl.name);
+    } else {
+      const index = associatedOrgs.indexOf(inputEl.name);
+      if (index > -1) {
+        // only splice array when item is found
+        associatedOrgs.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    }
   };
 
   const eventClickHandler = (event: MouseEvent): void => {
@@ -71,6 +101,15 @@ const NodeForm = () => {
     console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
+    if (inputEl.value !== "") {
+      associatedEvents.push(inputEl.name);
+    } else {
+      const index = associatedEvents.indexOf(inputEl.name);
+      if (index > -1) {
+        // only splice array when item is found
+        associatedEvents.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    }
   };
 
   const submitHandler = async (event: FormEvent) => {
@@ -78,14 +117,16 @@ const NodeForm = () => {
     const enteredName = nameRef.current?.value;
     const enteredSlug = slugRef.current?.value;
     const enteredRole = roleRef.current?.value;
-    console.log(typeof enteredRole);
+    // console.log(typeof enteredRole);
     const nickName = enteredName?.toLowerCase().replaceAll(" ", "");
     const postData = {
       name: enteredName,
       role: enteredRole,
       nickName,
       postSlug: enteredSlug,
-      peopleFollowedByUser: associatedPeople,
+      people: associatedPeople,
+      events: associatedEvents,
+      orgs: associatedOrgs,
     };
     let resData;
 
@@ -99,11 +140,17 @@ const NodeForm = () => {
       resData = await axios.post("/api/nodes/organizations", postData);
     }
 
-    console.log(resData);
+    // console.log(resData);
     setNodeClicked(false);
+    mutate("/api/nodes/persons");
+    mutate("/api/nodes/events");
+    mutate("/api/nodes/organizations");
   };
   return (
     <div className={styles.formContainer}>
+      <p>{node}</p>
+      <p>{role}</p>
+      <p>{nodeData?.data?.name}</p>
       <div className={styles.nodeContainer}>
         <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
       </div>
@@ -112,16 +159,18 @@ const NodeForm = () => {
         {nodeClicked && (
           <div>
             <form className={styles.form} onSubmit={submitHandler}>
-              <label htmlFor="name">Name</label>
-              <input type="text" name="name" id="name" ref={nameRef} />
-              <label htmlFor="role">Role</label>
-              <select name="role" id="role" ref={roleRef}>
-                <option value={Role.person}>person</option>
-                <option value={Role.organization}>organization</option>
-                <option value={Role.event}>event</option>
-              </select>
-              <label htmlFor="slug">Post Slug</label>
-              <input type="text" name="slug" id="slug" ref={slugRef} />
+              <div className={styles.inputs}>
+                <label htmlFor="name">Name</label>
+                <input type="text" name="name" id="name" ref={nameRef} />
+                <label htmlFor="role">Role</label>
+                <select name="role" id="role" ref={roleRef}>
+                  <option value={Role.person}>person</option>
+                  <option value={Role.organization}>organization</option>
+                  <option value={Role.event}>event</option>
+                </select>
+                <label htmlFor="slug">Post Slug</label>
+                <input type="text" name="slug" id="slug" ref={slugRef} />
+              </div>
               <div>
                 <label htmlFor="user-select">Associated people</label>
                 {userData.data?.length === 0 && <p>No Person data available</p>}
@@ -198,7 +247,9 @@ const NodeForm = () => {
                   </div>
                 )}
               </div>
-              <button type="submit">submit</button>
+              <button type="submit" className={styles.submit}>
+                submit
+              </button>
             </form>
             <div className={styles.nodeContainer}>
               <CancelButton clickActivity={cancelBtnhandler} />

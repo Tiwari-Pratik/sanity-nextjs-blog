@@ -1,31 +1,26 @@
 .sidebar {
-  /* background-color: red; */
+  background-color: red;
 
   display: flex;
   flex-direction: column;
   padding: 2em 1em;
   justify-content: space-between;
   align-items: center;
-  font-family: "Chakra Petch", sans-serif;
-  font-weight: 500;
 }
 
 .nodes {
   height: 30%;
-  /* background-color: yellow; */
+  background-color: yellow;
   width: 100%;
   padding: 1em;
   overflow-y: scroll;
-  border: 1px solid black;
   scroll-behavior: smooth;
-}
-
-.label {
-  text-align: center;
+  /* scrollbar-width: 0; */
+  /* scrollbar-color: transparent; */
 }
 
 .list {
-  /* background-color: blue; */
+  background-color: blue;
   padding: 0.5em;
   list-style: none;
   display: flex;
@@ -38,14 +33,5 @@
 .list li {
   background-color: #c1c2c1;
   padding: 0.5em 1em;
-  border-radius: 5px;
-}
-
-.list li:hover {
-  cursor: pointer;
-  background-color: #e1efe2;
-}
-
-.list .clicked {
-  background-color: #a1ffe2;
+  border-radius: 20px;
 }
