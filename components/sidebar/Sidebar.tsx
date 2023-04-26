@@ -1,13 +1,14 @@
 import { MouseEvent } from "react";
 import styles from "./Sidebar.module.css";
 import useSWR, { mutate } from "swr";
+import useNodeStore from "@/store/nodeStore";
 // import axios from "axios";
 
-interface sidebarProps {
-  nodeClick: (id: string, rol: string) => void;
-}
+// interface sidebarProps {
+//   nodeClick: (id: string, rol: string) => void;
+// }
 
-const Sidebar = ({ nodeClick }: sidebarProps) => {
+const Sidebar = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data: userData } = useSWR("/api/nodes/persons", fetcher, {
     revalidateOnMount: true,
@@ -18,6 +19,10 @@ const Sidebar = ({ nodeClick }: sidebarProps) => {
   const { data: orgData } = useSWR("/api/nodes/organizations", fetcher, {
     revalidateOnMount: true,
   });
+
+  // const nodeItem = useNodeStore((state) => state.node)
+  // const roleItem = useNodeStore((state) => state.role)
+  const updateItems = useNodeStore((state) => state.update);
 
   const itemClickHandler = (event: MouseEvent): void => {
     const curTarget = event.currentTarget as HTMLDivElement;
@@ -47,7 +52,8 @@ const Sidebar = ({ nodeClick }: sidebarProps) => {
     }
 
     target.classList.toggle(`${styles.clicked}`);
-    nodeClick(target.id, target.role!);
+    // nodeClick(target.id, target.role!);
+    updateItems(target.id, target.role!);
   };
   return (
     <div className={styles.sidebar} onClick={itemClickHandler}>

@@ -1,16 +1,24 @@
-import { FormEvent, MouseEvent, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./NodeForm.module.css";
 import CancelButton from "../buttons/CancelButton";
 import NodeButton from "../buttons/NodeButton";
 import useSWR, { mutate } from "swr";
 import axios from "axios";
+import useNodeStore from "@/store/nodeStore";
 
-interface formProps {
-  node: string | null;
-  role: string | null;
-}
+// interface formProps {
+//   node: string | null;
+//   role: string | null;
+// }
 
-const NodeForm = ({ node, role }: formProps) => {
+const NodeForm = () => {
   const [nodeClicked, setNodeClicked] = useState<boolean>(false);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -24,8 +32,12 @@ const NodeForm = ({ node, role }: formProps) => {
     revalidateOnMount: true,
   });
 
+  const nodeItem = useNodeStore((state) => state.node);
+  const roleItem = useNodeStore((state) => state.role);
+
+  // console.log(nodeItem, roleItem);
   const { data: nodeData } = useSWR(
-    () => (node ? `/api/nodes/${node}?role=${role}` : null),
+    () => (nodeItem ? `/api/nodes/${nodeItem}?role=${roleItem}` : null),
     fetcher
   );
   console.log(nodeData);
@@ -146,16 +158,125 @@ const NodeForm = ({ node, role }: formProps) => {
     mutate("/api/nodes/events");
     mutate("/api/nodes/organizations");
   };
+
   return (
     <div className={styles.formContainer}>
-      <p>{node}</p>
-      <p>{role}</p>
+      <p>{nodeItem}</p>
+      <p>{roleItem}</p>
       <p>{nodeData?.data?.name}</p>
-      <div className={styles.nodeContainer}>
-        <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
-      </div>
+      {!nodeItem && (
+        <div className={styles.nodeContainer}>
+          <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
+        </div>
+      )}
+      {nodeItem && (
+        <div>
+          <form className={styles.form} onSubmit={submitHandler}>
+            <div className={styles.inputs}>
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                ref={nameRef}
+                // value={nameValue ? nameValue : nodeData?.data?.name}
+                // onChange={nameChangeHandler}
+                defaultValue={nodeData?.data?.name}
+              />
+              <label htmlFor="role">Role</label>
+              <select
+                name="role"
+                id="role"
+                ref={roleRef}
+                value={nodeData?.data.role}
+                defaultValue={Role.person}
+                aria-readonly
+              >
+                <option value={Role.person}>person</option>
+                <option value={Role.organization}>organization</option>
+                <option value={Role.event}>event</option>
+              </select>
+              <label htmlFor="slug">Post Slug</label>
+              <input
+                type="text"
+                name="slug"
+                id="slug"
+                ref={slugRef}
+                defaultValue={nodeData?.data?.postSlug}
+              />
+            </div>
+            <div>
+              <label htmlFor="user-select">Associated people</label>
+              {userData.data?.length === 0 && <p>No Person data available</p>}
+              {userData.data?.length > 0 && (
+                <div className={styles.users}>
+                  {userData.data.map((data: any) => {
+                    return (
+                      <div
+                        className={`${styles.item}`}
+                        onClick={userClickHandler}
+                        key={data.nickName}
+                      >
+                        <input type="checkbox" value="" name={data.nickName} />
+                        <label>{data.name}</label>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div>
+              <label htmlFor="user-select">Associated Organizations</label>
+              {orgData.data.length === 0 && (
+                <p>No Organization data available</p>
+              )}
+
+              {orgData.data.length > 0 && (
+                <div className={styles.users}>
+                  {orgData.data.map((data: any) => {
+                    return (
+                      <div
+                        className={`${styles.item}`}
+                        onClick={orgClickHandler}
+                        key={data.nickName}
+                      >
+                        <input type="checkbox" value="" name={data.nickName} />
+                        <label>{data.name}</label>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div>
+              <label htmlFor="user-select">Associated Events</label>
+              {eventData.data.length === 0 && <p>No Event data available</p>}
+
+              {eventData.data.length > 0 && (
+                <div className={styles.users}>
+                  {eventData.data.map((data: any) => {
+                    return (
+                      <div
+                        className={`${styles.item}`}
+                        onClick={eventClickHandler}
+                        key={data.nickName}
+                      >
+                        <input type="checkbox" value="" name={data.nickName} />
+                        <label>{data.name}</label>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <button type="submit" className={styles.submit}>
+              submit
+            </button>
+          </form>
+        </div>
+      )}
       <div>
-        {!nodeClicked && <p>Node Data Preview</p>}
+        {!nodeClicked && !nodeItem && <p>Node Data Preview</p>}
         {nodeClicked && (
           <div>
             <form className={styles.form} onSubmit={submitHandler}>
