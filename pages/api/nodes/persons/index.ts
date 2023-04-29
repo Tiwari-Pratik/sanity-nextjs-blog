@@ -48,6 +48,40 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     res.status(200).json({ data: result });
   }
+
+  if (req.method === "PUT") {
+    const data = req.body;
+
+    const nodeData: Prisma.PersonCreateInput = {
+      name: data.name,
+      role: data.role,
+      postSlug: data.postSlug,
+      nickName: data.nickName,
+      persons: {
+        connect: data.people.map((data: string) => {
+          return { nickName: data };
+        }),
+      },
+      events: {
+        connect: data.events.map((data: string) => {
+          return { nickName: data };
+        }),
+      },
+      organizations: {
+        connect: data.orgs.map((data: string) => {
+          return { nickName: data };
+        }),
+      },
+    };
+
+    const result = await prisma?.person.update({
+      where: {
+        nickName: data.nickName,
+      },
+      data: nodeData,
+    });
+    res.status(200).json({ data: result });
+  }
 };
 
 export default handler;

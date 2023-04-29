@@ -5,7 +5,7 @@ import NodeButton from "../buttons/NodeButton";
 import useSWR, { mutate } from "swr";
 import axios from "axios";
 import useNodeStore from "@/store/nodeStore";
-import { Prisma } from "@prisma/client";
+// import { Prisma } from "@prisma/client";
 
 // interface formProps {
 //   node: string | null;
@@ -42,20 +42,20 @@ const NodeForm = () => {
 
   let associatedPeople: string[] = nodeData?.data
     ? nodeData.data.persons.map(
-      (person: { name: string; nickName: string; role: string }) =>
-        person.nickName
-    )
+        (person: { name: string; nickName: string; role: string }) =>
+          person.nickName
+      )
     : [];
   let associatedEvents: string[] = nodeData?.data
     ? nodeData.data.events.map(
-      (event: { name: string; nickName: string; role: string }) =>
-        event.nickName
-    )
+        (event: { name: string; nickName: string; role: string }) =>
+          event.nickName
+      )
     : [];
   let associatedOrgs: string[] = nodeData?.data
     ? nodeData.data.organizations.map(
-      (org: { name: string; nickName: string; role: string }) => org.nickName
-    )
+        (org: { name: string; nickName: string; role: string }) => org.nickName
+      )
     : [];
   // let associatedEvents: string[] = [];
   // let associatedOrgs: string[] = [];
@@ -73,6 +73,7 @@ const NodeForm = () => {
 
   const nodeBtnhandler = () => {
     setNodeClicked(true);
+    // updateItems("", "");
     // console.log(userData);
   };
   const cancelBtnhandler = () => {
@@ -193,6 +194,43 @@ const NodeForm = () => {
 
     // console.log(resData);
     setNodeClicked(false);
+    updateItems("", "");
+    mutate("/api/nodes/persons");
+    mutate("/api/nodes/events");
+    mutate("/api/nodes/organizations");
+  };
+
+  const updateHandler = async (event: FormEvent) => {
+    event.preventDefault();
+    const enteredName = nameRef.current?.value;
+    const enteredSlug = slugRef.current?.value;
+    const enteredRole = roleRef.current?.value;
+    // console.log(typeof enteredRole);
+    const nickName = enteredName?.toLowerCase().replaceAll(" ", "");
+    const postData = {
+      name: enteredName,
+      role: enteredRole,
+      nickName,
+      postSlug: enteredSlug,
+      people: associatedPeople,
+      events: associatedEvents,
+      orgs: associatedOrgs,
+    };
+    let resData;
+
+    if (enteredRole === Role.person) {
+      resData = await axios.put("/api/nodes/persons", postData);
+    }
+    if (enteredRole === Role.event) {
+      resData = await axios.put("/api/nodes/events", postData);
+    }
+    if (enteredRole === Role.organization) {
+      resData = await axios.put("/api/nodes/organizations", postData);
+    }
+
+    // console.log(resData);
+    setNodeClicked(false);
+    updateItems("", "");
     mutate("/api/nodes/persons");
     mutate("/api/nodes/events");
     mutate("/api/nodes/organizations");
@@ -200,9 +238,6 @@ const NodeForm = () => {
 
   return (
     <div className={styles.formContainer}>
-      {/*<p>{nodeItem}</p>
-      <p>{roleItem}</p>
-      <p>{nodeData?.data?.name}</p>*/}
       {!nodeItem && (
         <div className={styles.nodeContainer}>
           <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
@@ -210,7 +245,7 @@ const NodeForm = () => {
       )}
       {nodeItem && (
         <div>
-          <form className={styles.form} onSubmit={submitHandler}>
+          <form className={styles.form} onSubmit={updateHandler}>
             <div className={styles.inputs}>
               <label htmlFor="name">Name</label>
               <input
@@ -339,7 +374,7 @@ const NodeForm = () => {
               )}
             </div>
             <button type="submit" className={styles.submit}>
-              submit
+              Update
             </button>
           </form>
           <div className={styles.nodeContainer}>
@@ -349,7 +384,7 @@ const NodeForm = () => {
       )}
       <div>
         {!nodeClicked && !nodeItem && <p>Node Data Preview</p>}
-        {nodeClicked && (
+        {nodeClicked && !nodeItem && (
           <div>
             <form className={styles.form} onSubmit={submitHandler}>
               <div className={styles.inputs}>
