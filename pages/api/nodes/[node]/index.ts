@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           nickName: true,
           role: true,
           postSlug: true,
-          peopleFollowedByUser: {
+          persons: {
             select: {
               name: true,
               nickName: true,
@@ -53,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           nickName: true,
           role: true,
           postSlug: true,
-          eventFollowedByEvent: {
+          events: {
             select: {
               name: true,
               nickName: true,
@@ -87,7 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           nickName: true,
           role: true,
           postSlug: true,
-          orgsFollowedByOrg: {
+          organizations: {
             select: {
               name: true,
               nickName: true,

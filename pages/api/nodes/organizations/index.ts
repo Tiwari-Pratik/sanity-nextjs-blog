@@ -36,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           return { nickName: data };
         }),
       },
-      orgsFollowedByOrg: {
+      organizations: {
         connect: data.orgs.map((data: string) => {
           return { nickName: data };
         }),

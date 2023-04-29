@@ -11,49 +11,49 @@ datasource db {
 }
 
 model Person {
-  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
-  role                 String
-  name                 String         @unique
-  nickName             String         @unique
-  postSlug             String         @unique
-  followerIds          String[]       @default([]) @db.ObjectId
-  followingIds         String[]       @default([]) @db.ObjectId
-  peopleFollowingUser  Person[]       @relation("PersontoPerson", fields: [followerIds], references: [id])
-  peopleFollowedByUser Person[]       @relation("PersontoPerson", fields: [followingIds], references: [id])
-  orgIds               String[]       @default([]) @db.ObjectId
-  organizations        Organization[] @relation(fields: [orgIds], references: [id])
-  eventIds             String[]       @default([]) @db.ObjectId
-  events               Event[]        @relation(fields: [eventIds], references: [id])
+  id                  String         @id @default(auto()) @map("_id") @db.ObjectId
+  role                String
+  name                String         @unique
+  nickName            String         @unique
+  postSlug            String         @unique
+  followerIds         String[]       @default([]) @db.ObjectId
+  followingIds        String[]       @default([]) @db.ObjectId
+  peopleFollowingUser Person[]       @relation("PersontoPerson", fields: [followerIds], references: [id])
+  persons             Person[]       @relation("PersontoPerson", fields: [followingIds], references: [id])
+  orgIds              String[]       @default([]) @db.ObjectId
+  organizations       Organization[] @relation(fields: [orgIds], references: [id])
+  eventIds            String[]       @default([]) @db.ObjectId
+  events              Event[]        @relation(fields: [eventIds], references: [id])
 }
 
 model Organization {
-  id                String         @id @default(auto()) @map("_id") @db.ObjectId
-  role              String
-  name              String         @unique
-  nickName          String         @unique
-  postSlug          String         @unique
-  followerIds       String[]       @default([]) @db.ObjectId
-  followingIds      String[]       @default([]) @db.ObjectId
-  orgsFollowingOrg  Organization[] @relation("OrgToOrg", fields: [followerIds], references: [id])
-  orgsFollowedByOrg Organization[] @relation("OrgToOrg", fields: [followingIds], references: [id])
-  persons           Person[]       @relation(fields: [personIds], references: [id])
-  personIds         String[]       @default([]) @db.ObjectId
-  eventIds          String[]       @default([]) @db.ObjectId
-  events            Event[]        @relation(fields: [eventIds], references: [id])
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  role             String
+  name             String         @unique
+  nickName         String         @unique
+  postSlug         String         @unique
+  followerIds      String[]       @default([]) @db.ObjectId
+  followingIds     String[]       @default([]) @db.ObjectId
+  orgsFollowingOrg Organization[] @relation("OrgToOrg", fields: [followerIds], references: [id])
+  organizations    Organization[] @relation("OrgToOrg", fields: [followingIds], references: [id])
+  persons          Person[]       @relation(fields: [personIds], references: [id])
+  personIds        String[]       @default([]) @db.ObjectId
+  eventIds         String[]       @default([]) @db.ObjectId
+  events           Event[]        @relation(fields: [eventIds], references: [id])
 }
 
 model Event {
-  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
-  role                 String
-  name                 String         @unique
-  nickName             String         @unique
-  postSlug             String         @unique
-  followerIds          String[]       @default([]) @db.ObjectId
-  followingIds         String[]       @default([]) @db.ObjectId
-  eventFollowingEvent  Event[]        @relation("eventToevent", fields: [followerIds], references: [id])
-  eventFollowedByEvent Event[]        @relation("eventToevent", fields: [followingIds], references: [id])
-  persons              Person[]       @relation(fields: [personIds], references: [id])
-  personIds            String[]       @default([]) @db.ObjectId
-  orgIds               String[]       @default([]) @db.ObjectId
-  organizations        Organization[] @relation(fields: [orgIds], references: [id])
+  id                  String         @id @default(auto()) @map("_id") @db.ObjectId
+  role                String
+  name                String         @unique
+  nickName            String         @unique
+  postSlug            String         @unique
+  followerIds         String[]       @default([]) @db.ObjectId
+  followingIds        String[]       @default([]) @db.ObjectId
+  eventFollowingEvent Event[]        @relation("eventToevent", fields: [followerIds], references: [id])
+  events              Event[]        @relation("eventToevent", fields: [followingIds], references: [id])
+  persons             Person[]       @relation(fields: [personIds], references: [id])
+  personIds           String[]       @default([]) @db.ObjectId
+  orgIds              String[]       @default([]) @db.ObjectId
+  organizations       Organization[] @relation(fields: [orgIds], references: [id])
 }

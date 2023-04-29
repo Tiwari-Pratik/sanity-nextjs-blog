@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FormEvent, MouseEvent, useRef, useState } from "react";
 import styles from "./NodeForm.module.css";
 import CancelButton from "../buttons/CancelButton";
 import NodeButton from "../buttons/NodeButton";
@@ -34,6 +27,7 @@ const NodeForm = () => {
 
   const nodeItem = useNodeStore((state) => state.node);
   const roleItem = useNodeStore((state) => state.role);
+  const updateItems = useNodeStore((state) => state.update);
 
   // console.log(nodeItem, roleItem);
   const { data: nodeData } = useSWR(
@@ -45,11 +39,30 @@ const NodeForm = () => {
   const slugRef = useRef<HTMLInputElement | null>(null);
   const roleRef = useRef<HTMLSelectElement | null>(null);
 
-  let associatedPeople: string[] = [];
-  let associatedEvents: string[] = [];
-  let associatedOrgs: string[] = [];
+  let associatedPeople: string[] = nodeData?.data
+    ? nodeData.data.persons.map(
+      (person: { name: string; nickName: string; role: string }) =>
+        person.nickName
+    )
+    : [];
+  let associatedEvents: string[] = nodeData?.data
+    ? nodeData.data.events.map(
+      (event: { name: string; nickName: string; role: string }) =>
+        event.nickName
+    )
+    : [];
+  let associatedOrgs: string[] = nodeData?.data
+    ? nodeData.data.organizations.map(
+      (org: { name: string; nickName: string; role: string }) => org.nickName
+    )
+    : [];
+  // let associatedEvents: string[] = [];
+  // let associatedOrgs: string[] = [];
 
   console.log("Form component rendered");
+  console.log(associatedPeople);
+  console.log(associatedEvents);
+  console.log(associatedOrgs);
 
   enum Role {
     person = "PERSON",
@@ -63,6 +76,7 @@ const NodeForm = () => {
   };
   const cancelBtnhandler = () => {
     setNodeClicked(false);
+    updateItems("", "");
   };
   const userClickHandler = (event: MouseEvent): void => {
     console.log(event.target);
@@ -74,14 +88,22 @@ const NodeForm = () => {
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
-      associatedPeople.push(inputEl.name);
+      const index = associatedPeople.indexOf(inputEl.name);
+      if (index <= -1) {
+        associatedPeople.push(inputEl.name);
+      } else {
+        associatedPeople.splice(index, 1); // 2nd parameter means remove one item only
+      }
     } else {
       const index = associatedPeople.indexOf(inputEl.name);
       if (index > -1) {
         // only splice array when item is found
         associatedPeople.splice(index, 1); // 2nd parameter means remove one item only
+      } else {
+        associatedPeople.push(inputEl.name);
       }
     }
+    console.log(associatedPeople);
   };
 
   const orgClickHandler = (event: MouseEvent): void => {
@@ -94,14 +116,22 @@ const NodeForm = () => {
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
-      associatedOrgs.push(inputEl.name);
+      const index = associatedOrgs.indexOf(inputEl.name);
+      if (index <= -1) {
+        associatedOrgs.push(inputEl.name);
+      } else {
+        associatedOrgs.splice(index, 1); // 2nd parameter means remove one item only
+      }
     } else {
       const index = associatedOrgs.indexOf(inputEl.name);
       if (index > -1) {
         // only splice array when item is found
         associatedOrgs.splice(index, 1); // 2nd parameter means remove one item only
+      } else {
+        associatedOrgs.push(inputEl.name);
       }
     }
+    console.log(associatedOrgs);
   };
 
   const eventClickHandler = (event: MouseEvent): void => {
@@ -114,14 +144,22 @@ const NodeForm = () => {
     inputEl.value = inputEl.checked ? inputEl.name : "";
     console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
-      associatedEvents.push(inputEl.name);
+      const index = associatedEvents.indexOf(inputEl.name);
+      if (index <= -1) {
+        associatedEvents.push(inputEl.name);
+      } else {
+        associatedEvents.splice(index, 1); // 2nd parameter means remove one item only
+      }
     } else {
       const index = associatedEvents.indexOf(inputEl.name);
       if (index > -1) {
         // only splice array when item is found
         associatedEvents.splice(index, 1); // 2nd parameter means remove one item only
+      } else {
+        associatedEvents.push(inputEl.name);
       }
     }
+    console.log(associatedEvents);
   };
 
   const submitHandler = async (event: FormEvent) => {
@@ -161,9 +199,9 @@ const NodeForm = () => {
 
   return (
     <div className={styles.formContainer}>
-      <p>{nodeItem}</p>
+      {/*<p>{nodeItem}</p>
       <p>{roleItem}</p>
-      <p>{nodeData?.data?.name}</p>
+      <p>{nodeData?.data?.name}</p>*/}
       {!nodeItem && (
         <div className={styles.nodeContainer}>
           <NodeButton clickActivity={nodeBtnhandler} isclicked={nodeClicked} />
@@ -211,16 +249,26 @@ const NodeForm = () => {
               {userData.data?.length > 0 && (
                 <div className={styles.users}>
                   {userData.data.map((data: any) => {
-                    return (
-                      <div
-                        className={`${styles.item}`}
-                        onClick={userClickHandler}
-                        key={data.nickName}
-                      >
-                        <input type="checkbox" value="" name={data.nickName} />
-                        <label>{data.name}</label>
-                      </div>
-                    );
+                    if (data.nickName !== nodeData?.data.nickName) {
+                      return (
+                        <div
+                          className={
+                            associatedPeople.includes(data.nickName)
+                              ? `${styles.item} ${styles.itemClicked}`
+                              : `${styles.item}`
+                          }
+                          onClick={userClickHandler}
+                          key={data.nickName}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               )}
@@ -234,16 +282,26 @@ const NodeForm = () => {
               {orgData.data.length > 0 && (
                 <div className={styles.users}>
                   {orgData.data.map((data: any) => {
-                    return (
-                      <div
-                        className={`${styles.item}`}
-                        onClick={orgClickHandler}
-                        key={data.nickName}
-                      >
-                        <input type="checkbox" value="" name={data.nickName} />
-                        <label>{data.name}</label>
-                      </div>
-                    );
+                    if (data.nickName !== nodeData?.data.nickName) {
+                      return (
+                        <div
+                          className={
+                            associatedOrgs.includes(data.nickName)
+                              ? `${styles.item} ${styles.itemClicked}`
+                              : `${styles.item}`
+                          }
+                          onClick={orgClickHandler}
+                          key={data.nickName}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               )}
@@ -255,16 +313,26 @@ const NodeForm = () => {
               {eventData.data.length > 0 && (
                 <div className={styles.users}>
                   {eventData.data.map((data: any) => {
-                    return (
-                      <div
-                        className={`${styles.item}`}
-                        onClick={eventClickHandler}
-                        key={data.nickName}
-                      >
-                        <input type="checkbox" value="" name={data.nickName} />
-                        <label>{data.name}</label>
-                      </div>
-                    );
+                    if (data.nickName !== nodeData?.data.nickName) {
+                      return (
+                        <div
+                          className={
+                            associatedEvents.includes(data.nickName)
+                              ? `${styles.item} ${styles.itemClicked}`
+                              : `${styles.item}`
+                          }
+                          onClick={eventClickHandler}
+                          key={data.nickName}
+                        >
+                          <input
+                            type="checkbox"
+                            value=""
+                            name={data.nickName}
+                          />
+                          <label>{data.name}</label>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               )}
@@ -273,6 +341,9 @@ const NodeForm = () => {
               submit
             </button>
           </form>
+          <div className={styles.nodeContainer}>
+            <CancelButton clickActivity={cancelBtnhandler} />
+          </div>
         </div>
       )}
       <div>

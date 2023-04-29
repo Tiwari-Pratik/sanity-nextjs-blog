@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       role: data.role,
       postSlug: data.postSlug,
       nickName: data.nickName,
-      peopleFollowedByUser: {
+      persons: {
         connect: data.people.map((data: string) => {
           return { nickName: data };
         }),

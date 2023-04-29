@@ -31,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           return { nickName: data };
         }),
       },
-      eventFollowedByEvent: {
+      events: {
         connect: data.events.map((data: string) => {
           return { nickName: data };
         }),
