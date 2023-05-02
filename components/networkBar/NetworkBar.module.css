@@ -1,0 +1,66 @@
+.sidebar {
+  background-color: rgba(240, 238, 238, 0.7);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em 1em;
+  border-left: 1px solid black;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: "Chakra Petch", sans-serif;
+  /* font-weight: 500; */
+}
+
+.nodes {
+  height: 20%;
+  max-height: 300px;
+  /* background-color: yellow; */
+  width: 100%;
+  padding: 0.1em 0.5em;
+  border: 1px solid black;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.label {
+  text-align: center;
+}
+
+.list {
+  /* background-color: blue; */
+  padding: 0.2em 1em;
+  list-style: circle;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.list li {
+  /* background-color: #c1c2c1; */
+  padding: 0.2em 0.5em;
+  border-radius: 5px;
+}
+
+.list .link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.list li:hover {
+  cursor: pointer;
+  background-color: #e1efe2;
+  /* border-spacing: 10px 20px; */
+  background-image: linear-gradient(#ffb1bb, #ffb1bb),
+    linear-gradient(#ffb1bb, #ffb1bb), linear-gradient(#ffb1bb, #ffb1bb),
+    linear-gradient(#ffb1bb, #ffb1bb);
+
+  background-repeat: no-repeat;
+  background-size: 8px 3px;
+  background-position: top left, top right, bottom left, bottom right;
+
+  border: solid #ffb1bb;
+  border-width: 0 3px;
+}

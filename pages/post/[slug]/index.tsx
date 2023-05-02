@@ -1,5 +1,6 @@
 import Article from "@/components/article/Article";
 import Layout from "@/components/blog/layout/Layout";
+import NetworkBar from "@/components/networkBar/NetworkBar";
 import { client } from "@/lib/sanity.client";
 import { GetServerSideProps } from "next";
 import { groq } from "next-sanity";
@@ -9,11 +10,17 @@ interface PageProps {
   data: Post;
 }
 const PostPage = ({ data }: PageProps) => {
-  // console.log(data);
+  console.log(data);
+  const role = data.role;
+  const nickName = data.title.toLowerCase().replaceAll(" ", "");
+
   return (
     <Fragment>
       <Layout />
-      <Article post={data} />
+      <div className="articleContainer">
+        <Article post={data} />
+        <NetworkBar role={role} nickName={nickName} />
+      </div>
     </Fragment>
   );
 };

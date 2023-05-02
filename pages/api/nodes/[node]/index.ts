@@ -24,6 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           events: {
@@ -31,6 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           organizations: {
@@ -38,6 +40,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
         },
@@ -58,6 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           persons: {
@@ -65,6 +69,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           organizations: {
@@ -72,6 +77,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
         },
@@ -92,6 +98,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           persons: {
@@ -99,6 +106,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
           events: {
@@ -106,6 +114,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               name: true,
               nickName: true,
               role: true,
+              postSlug: true,
             },
           },
         },

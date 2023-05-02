@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500;600;700;800;900&display=swap");
+
 .article {
-  width: 70%;
+  width: 90%;
   /* background-color: #ccc; */
   margin: 1em auto;
   padding: 2em;
+  font-family: "Inconsolata", monospace;
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
 .coverSection {
@@ -12,7 +17,8 @@
 }
 
 .coverImage {
-  width: 100%;
+  width: 70%;
+  margin: 0 auto;
   object-fit: cover;
   object-position: center;
   box-shadow: 5px 5px 0px #1a1a1a, 10px 10px 15px #333;
@@ -31,5 +37,6 @@
 .blogPost {
   padding: 1em 2em;
   border-radius: 1em;
-  box-shadow: 3px 3px 10px #ccc, -3px -3px 10px #ccc;
+  /* box-shadow: 3px 3px 10px #ccc, -3px -3px 10px #ccc; */
+  background-color: whitesmoke;
 }
