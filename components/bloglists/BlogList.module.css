@@ -15,6 +15,7 @@
 .postContainer {
   margin: 1rem 2rem;
   padding: 1rem 2rem;
+  /* aspect-ratio: 5/7; */
   /* background-color: #cdc; */
   filter: blur(0.6);
   /* opacity: 0.5; */

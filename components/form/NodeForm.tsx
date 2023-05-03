@@ -35,35 +35,39 @@ const NodeForm = () => {
     () => (nodeItem ? `/api/nodes/${nodeItem}?role=${roleItem}` : null),
     fetcher
   );
-  console.log(nodeData);
+  // console.log(nodeData);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const slugRef = useRef<HTMLInputElement | null>(null);
   const roleRef = useRef<HTMLSelectElement | null>(null);
 
   let associatedPeople: string[] = nodeData?.data
     ? nodeData.data.persons.map(
-        (person: { name: string; nickName: string; role: string }) =>
-          person.nickName
-      )
+      (person: { name: string; nickName: string; role: string }) =>
+        person.nickName
+    )
     : [];
   let associatedEvents: string[] = nodeData?.data
     ? nodeData.data.events.map(
-        (event: { name: string; nickName: string; role: string }) =>
-          event.nickName
-      )
+      (event: { name: string; nickName: string; role: string }) =>
+        event.nickName
+    )
     : [];
   let associatedOrgs: string[] = nodeData?.data
     ? nodeData.data.organizations.map(
-        (org: { name: string; nickName: string; role: string }) => org.nickName
-      )
+      (org: { name: string; nickName: string; role: string }) => org.nickName
+    )
     : [];
+
+  const oldAssociatedPeople = [...associatedPeople];
+  const oldAssociatedEvents = [...associatedEvents];
+  const oldAssociatedOrgs = [...associatedOrgs];
   // let associatedEvents: string[] = [];
   // let associatedOrgs: string[] = [];
 
-  console.log("Form component rendered");
-  console.log(associatedPeople);
-  console.log(associatedEvents);
-  console.log(associatedOrgs);
+  // console.log("Form component rendered");
+  // console.log(associatedPeople);
+  // console.log(associatedEvents);
+  // console.log(associatedOrgs);
 
   enum Role {
     person = "PERSON",
@@ -81,14 +85,14 @@ const NodeForm = () => {
     updateItems("", "");
   };
   const userClickHandler = (event: MouseEvent): void => {
-    console.log(event.target);
+    // console.log(event.target);
     const item = event.currentTarget as HTMLDivElement;
     item.classList.toggle(`${styles.itemClicked}`);
     const inputEl = item.children[0] as HTMLInputElement;
     inputEl.checked = !inputEl.checked;
-    console.log("checkedValue", inputEl.checked);
+    // console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
-    console.log("inputcheckedValue", inputEl.value);
+    // console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
       const index = associatedPeople.indexOf(inputEl.name);
       if (index <= -1) {
@@ -105,18 +109,18 @@ const NodeForm = () => {
         associatedPeople.push(inputEl.name);
       }
     }
-    console.log(associatedPeople);
+    // console.log(associatedPeople);
   };
 
   const orgClickHandler = (event: MouseEvent): void => {
-    console.log(event.target);
+    // console.log(event.target);
     const item = event.currentTarget as HTMLDivElement;
     item.classList.toggle(`${styles.itemClicked}`);
     const inputEl = item.children[0] as HTMLInputElement;
     inputEl.checked = !inputEl.checked;
-    console.log("checkedValue", inputEl.checked);
+    // console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
-    console.log("inputcheckedValue", inputEl.value);
+    // console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
       const index = associatedOrgs.indexOf(inputEl.name);
       if (index <= -1) {
@@ -133,18 +137,18 @@ const NodeForm = () => {
         associatedOrgs.push(inputEl.name);
       }
     }
-    console.log(associatedOrgs);
+    // console.log(associatedOrgs);
   };
 
   const eventClickHandler = (event: MouseEvent): void => {
-    console.log(event.target);
+    // console.log(event.target);
     const item = event.currentTarget as HTMLDivElement;
     item.classList.toggle(`${styles.itemClicked}`);
     const inputEl = item.children[0] as HTMLInputElement;
     inputEl.checked = !inputEl.checked;
-    console.log("checkedValue", inputEl.checked);
+    // console.log("checkedValue", inputEl.checked);
     inputEl.value = inputEl.checked ? inputEl.name : "";
-    console.log("inputcheckedValue", inputEl.value);
+    // console.log("inputcheckedValue", inputEl.value);
     if (inputEl.value !== "") {
       const index = associatedEvents.indexOf(inputEl.name);
       if (index <= -1) {
@@ -161,7 +165,7 @@ const NodeForm = () => {
         associatedEvents.push(inputEl.name);
       }
     }
-    console.log(associatedEvents);
+    // console.log(associatedEvents);
   };
 
   const submitHandler = async (event: FormEvent) => {
@@ -207,14 +211,54 @@ const NodeForm = () => {
     const enteredRole = roleRef.current?.value;
     // console.log(typeof enteredRole);
     const nickName = enteredName?.toLowerCase().replaceAll(" ", "");
+    const newConnectedPeople: string[] = associatedPeople.filter(
+      (person: string) => {
+        return !oldAssociatedPeople.includes(person);
+      }
+    );
+    const newDisconnectedPeople: string[] = oldAssociatedPeople.filter(
+      (person: string) => {
+        return !associatedPeople.includes(person);
+      }
+    );
+    const newConnectedEvents: string[] = associatedEvents.filter(
+      (event: string) => {
+        return !oldAssociatedEvents.includes(event);
+      }
+    );
+    const newDisconnectedEvents: string[] = oldAssociatedEvents.filter(
+      (event: string) => {
+        return !associatedEvents.includes(event);
+      }
+    );
+    const newConnectedOrgs: string[] = associatedOrgs.filter((org: string) => {
+      return !oldAssociatedOrgs.includes(org);
+    });
+    const newDisconnectedOrgs: string[] = oldAssociatedOrgs.filter(
+      (org: string) => {
+        return !associatedOrgs.includes(org);
+      }
+    );
+
+    console.log("logging arrays");
+    console.log(newConnectedPeople);
+    console.log(newConnectedEvents);
+    console.log(newConnectedOrgs);
+    console.log(newDisconnectedPeople);
+    console.log(newDisconnectedEvents);
+    console.log(newDisconnectedOrgs);
+
     const postData = {
       name: enteredName,
       role: enteredRole,
       nickName,
       postSlug: enteredSlug,
-      people: associatedPeople,
-      events: associatedEvents,
-      orgs: associatedOrgs,
+      connectPeople: newConnectedPeople,
+      disconnectPeople: newDisconnectedPeople,
+      connectEvents: newConnectedEvents,
+      disconnectEvents: newDisconnectedEvents,
+      connectOrgs: newConnectedOrgs,
+      disconnectOrgs: newDisconnectedOrgs,
     };
     let resData;
 

@@ -4,6 +4,7 @@ import { groq } from "next-sanity";
 import { client } from "../lib/sanity.client";
 import { PreviewSuspense } from "next-sanity/preview";
 import BlogList from "../components/bloglists/BlogList";
+// import bnwImage from "../images/colorImage.png";
 // import PreviewBlogList from "../components/bloglists/PreviewBlogList";
 
 const PreviewBlogList = lazy(

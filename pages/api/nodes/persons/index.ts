@@ -58,20 +58,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       postSlug: data.postSlug,
       nickName: data.nickName,
       persons: {
-        set: [],
-        connect: data.people.map((data: string) => {
+        disconnect: data.disconnectPeople.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectPeople.map((data: string) => {
           return { nickName: data };
         }),
       },
       events: {
-        set: [],
-        connect: data.events.map((data: string) => {
+        disconnect: data.disconnectEvents.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectEvents.map((data: string) => {
           return { nickName: data };
         }),
       },
       organizations: {
-        set: [],
-        connect: data.orgs.map((data: string) => {
+        disconnect: data.disconnectOrgs.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectOrgs.map((data: string) => {
           return { nickName: data };
         }),
       },

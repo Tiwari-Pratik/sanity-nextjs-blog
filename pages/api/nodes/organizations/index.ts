@@ -52,23 +52,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
     const data = req.body;
 
-    const nodeData: Prisma.OrganizationCreateInput = {
+    const nodeData: Prisma.OrganizationUpdateInput = {
       name: data.name,
       role: data.role,
       postSlug: data.postSlug,
       nickName: data.nickName,
       persons: {
-        connect: data.people.map((data: string) => {
+        disconnect: data.disconnectPeople.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectPeople.map((data: string) => {
           return { nickName: data };
         }),
       },
       events: {
-        connect: data.events.map((data: string) => {
+        disconnect: data.disconnectEvents.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectEvents.map((data: string) => {
           return { nickName: data };
         }),
       },
       organizations: {
-        connect: data.orgs.map((data: string) => {
+        disconnect: data.disconnectOrgs.map((data: string) => {
+          return { nickName: data };
+        }),
+        connect: data.connectOrgs.map((data: string) => {
           return { nickName: data };
         }),
       },
