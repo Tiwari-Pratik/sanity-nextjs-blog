@@ -1,1 +1,50 @@
+.container {
+  width: 90%;
+  height: 70vh;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.blog {
+  width: 20%;
+  aspect-ratio: 5/7;
+  background-color: red;
+  position: absolute;
+}
 
+.blogDiv4 {
+  transform-origin: bottom;
+  transform: rotateZ(15deg);
+  background-color: yellow;
+  transition: transform 300ms ease-out;
+}
+.blogDiv3 {
+  transform-origin: bottom;
+  transform: rotateZ(0deg);
+  background-color: green;
+  transition: transform 300ms ease-out;
+}
+.blogDiv2 {
+  transform-origin: bottom;
+  transform: rotateZ(-8deg);
+  background-color: brown;
+  transition: transform 300ms ease-out;
+}
+.blogDiv1 {
+  transform-origin: bottom;
+  transform: rotateZ(-20deg);
+  background-color: pink;
+  transition: transform 300ms ease-out;
+}
+.container:hover .blogDiv4 {
+  transform: translate(60%, -60%);
+}
+.container:hover .blogDiv3 {
+  transform: translate(60%, 60%);
+}
+.container:hover .blogDiv2 {
+  transform: translate(-60%, 60%);
+}
+.container:hover .blogDiv1 {
+  transform: translate(-60%, -60%);
+}
