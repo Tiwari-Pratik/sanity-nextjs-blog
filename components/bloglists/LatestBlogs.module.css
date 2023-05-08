@@ -1,5 +1,7 @@
 .container {
   width: 90%;
+  margin: 5em 0em;
+  padding: 5em 0;
   height: 70vh;
   position: relative;
   display: grid;
@@ -8,8 +10,12 @@
 .blog {
   width: 20%;
   aspect-ratio: 5/7;
-  background-color: red;
   position: absolute;
+  /* display: flex; */
+  border: 1px solid rgb(12, 62, 215);
+  border-radius: 1rem;
+  overflow: hidden;
+  z-index: 10;
 }
 
 .blogDiv4 {
@@ -37,14 +43,112 @@
   transition: transform 300ms ease-out;
 }
 .container:hover .blogDiv4 {
-  transform: translate(60%, -60%);
+  transform: translate(60%, -20%);
+  background-color: rgba(24, 52, 216, 0.3);
 }
 .container:hover .blogDiv3 {
-  transform: translate(60%, 60%);
+  transform: translate(60%, 100%);
+  background-color: rgba(24, 52, 216, 0.3);
 }
 .container:hover .blogDiv2 {
-  transform: translate(-60%, 60%);
+  transform: translate(-60%, 100%);
+  background-color: rgba(24, 52, 216, 0.3);
 }
 .container:hover .blogDiv1 {
-  transform: translate(-60%, -60%);
+  transform: translate(-60%, -20%);
+  background-color: rgba(24, 52, 216, 0.3);
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(32, 49, 208, 0.15),
+    rgba(32, 49, 208, 0.15) 3px,
+    transparent 3px,
+    transparent 9px
+  );
+  z-index: 2;
+  position: absolute;
+  background-size: 100% 9px;
+  inset: 0;
+  animation: pan-overlay 22s infinite linear;
+}
+
+@keyframes pan-overlay {
+  from {
+    background-position: 0% 0%;
+  }
+
+  to {
+    background-position: 0% -100%;
+  }
+}
+
+.screenImage {
+  width: 100%;
+  height: 100%;
+  /* position: absolute; */
+  /* z-index: 1; */
+}
+
+.postImage {
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  /* object-position: center; */
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: 0% 0%;
+  filter: sepia(100%) hue-rotate(160deg);
+  opacity: 0.6;
+  animation: pan-image 15s linear infinite;
+}
+
+@keyframes pan-image {
+  0% {
+    object-position: 0% 0%;
+  }
+
+  20% {
+    object-position: 50% 50%;
+  }
+
+  20.0001% {
+    /* -- View 2 -- */
+    object-position: 100% 100%;
+  }
+
+  40% {
+    object-position: 100% 80%;
+  }
+
+  40.0001% {
+    /* -- View 3 -- */
+    object-position: 0% 100%;
+  }
+
+  60% {
+    object-position: 100% 0%;
+  }
+
+  60.0001% {
+    /* -- View 4 -- */
+    object-position: 0% 0%;
+  }
+
+  80% {
+    object-position: 50% 50%;
+  }
+
+  80.0001% {
+    /* -- View 5 -- */
+    object-position: 80% 10%;
+  }
+
+  100% {
+    object-position: 0% 100%;
+  }
 }

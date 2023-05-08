@@ -17,7 +17,7 @@ const query = groq`
 ...,
 author->,
 categories[]->
-} | order(_createdAt desc)
+} | order(_createdAt desc) [0...4]
 
 `;
 export const getServerSideProps = async ({ preview = false }) => {
@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ preview = false }) => {
   }
 
   const data: Post[] = await client.fetch(query);
-  // console.log(data);
+  // console.log(data[1]);
   return { props: { preview, data } };
 };
 
@@ -44,9 +44,8 @@ export default function Home(props: { preview: boolean; data?: Post[] }) {
   return (
     <Fragment>
       <Layout />
-      <h2>Welcome page</h2>
-      <LatestBlogs />
-      {/*{props.data && <BlogList posts={props.data} />} */}
+      {props.data && <LatestBlogs posts={props.data} />}
+      {/*{props.data && <BlogList posts={props.data} />}*/}
     </Fragment>
   );
 }
