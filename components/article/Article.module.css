@@ -20,7 +20,7 @@
   width: 70%;
   margin: 0 auto;
   object-fit: cover;
-  object-position: center;
+  object-position: top;
   box-shadow: 5px 5px 0px #1a1a1a, 10px 10px 15px #333;
   border-radius: 10px;
 }
