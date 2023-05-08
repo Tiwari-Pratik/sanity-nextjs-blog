@@ -1,6 +1,8 @@
 import Dashboard from "@/components/dashboard/Dashboard";
 import NodeForm from "@/components/form/NodeForm";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { Fragment } from "react";
+import Layout from "@/components/blog/layout/Layout";
 // import { useState } from "react";
 
 const DashboardPage = () => {
@@ -12,10 +14,13 @@ const DashboardPage = () => {
   //   setRole(rol);
   // };
   return (
-    <Dashboard>
-      <Sidebar />
-      <NodeForm />
-    </Dashboard>
+    <Fragment>
+      <Layout />
+      <Dashboard>
+        <Sidebar />
+        <NodeForm />
+      </Dashboard>
+    </Fragment>
   );
 };
 

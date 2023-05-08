@@ -1,11 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap");
+
 .container {
   width: 90%;
-  margin: 5em 0em;
-  padding: 5em 0;
-  height: 70vh;
+  margin: 5em auto;
+  padding: 1em 1em;
+  min-height: 70vh;
   position: relative;
   display: grid;
   place-items: center;
+  /* background-color: black; */
 }
 .blog {
   width: 20%;
@@ -21,42 +24,93 @@
 .blogDiv4 {
   transform-origin: bottom;
   transform: rotateZ(15deg);
-  background-color: yellow;
+  background-color: rgba(25, 135, 75, 0.5);
   transition: transform 300ms ease-out;
 }
 .blogDiv3 {
   transform-origin: bottom;
   transform: rotateZ(0deg);
   background-color: green;
+  background-color: rgba(35, 35, 135, 0.5);
   transition: transform 300ms ease-out;
 }
 .blogDiv2 {
   transform-origin: bottom;
   transform: rotateZ(-8deg);
   background-color: brown;
+  background-color: rgba(35, 135, 35, 0.5);
   transition: transform 300ms ease-out;
 }
 .blogDiv1 {
   transform-origin: bottom;
   transform: rotateZ(-20deg);
   background-color: pink;
+  background-color: rgba(135, 35, 35, 0.5);
   transition: transform 300ms ease-out;
 }
+
+.container:hover {
+  min-height: 70vh;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+}
+
 .container:hover .blogDiv4 {
-  transform: translate(60%, -20%);
+  transform: translate(200%, 0%);
   background-color: rgba(24, 52, 216, 0.3);
+  /* margin-top: 2em; */
 }
 .container:hover .blogDiv3 {
-  transform: translate(60%, 100%);
+  transform: translate(60%, 0%);
   background-color: rgba(24, 52, 216, 0.3);
+  /* margin-bottom: 2em; */
 }
 .container:hover .blogDiv2 {
-  transform: translate(-60%, 100%);
+  transform: translate(-60%, 0%);
   background-color: rgba(24, 52, 216, 0.3);
+  /* margin-bottom: 2em; */
 }
 .container:hover .blogDiv1 {
-  transform: translate(-60%, -20%);
+  transform: translate(-200%, 0%);
   background-color: rgba(24, 52, 216, 0.3);
+  /* margin-top: 2em; */
+}
+.postData {
+  width: 80%;
+  height: 40%;
+  position: absolute;
+  bottom: 3%;
+  left: 10%;
+  /* inset: 0; */
+  margin: 0 auto;
+  text-align: center;
+  z-index: 20;
+
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: "Raleway", sans-serif;
+}
+
+.postDesc {
+  font-weight: 500;
+  font-size: 1rem;
+}
+.readMore {
+  padding: 0;
+  /* background-color: #acacac; */
+  display: inline-block;
+  width: 50%;
+  border-bottom: 1px solid red;
+  /* border-radius: 10px; */
+  color: #eef;
+  font-size: 1rem;
+  transition: transform 400ms;
+}
+
+.readMore:hover {
+  transform: scale(1.2);
 }
 
 .screen {

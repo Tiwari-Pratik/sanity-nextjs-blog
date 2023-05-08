@@ -3,6 +3,7 @@ import styles from "./LatestBlogs.module.css";
 import Image from "next/image";
 import urlFor from "@/lib/urlFor";
 import Link from "next/link";
+import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 
 interface LatestBlogsProps {
   posts: Post[];
@@ -27,6 +28,17 @@ const LatestBlogs = ({ posts }: LatestBlogsProps) => {
               className={styles.postImage}
             />
           </div>
+          <div className={styles.postData}>
+            <p>{posts[0].title}</p>
+            <p>
+              {new Date(posts[0]._createdAt).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+            <p className={styles.readMore}>Read More </p>
+          </div>
           <div className={styles.screen}></div>
         </Link>
       </div>
@@ -44,6 +56,17 @@ const LatestBlogs = ({ posts }: LatestBlogsProps) => {
               height={400}
               className={styles.postImage}
             />
+          </div>
+          <div className={styles.postData}>
+            <p>{posts[1].title}</p>
+            <p>
+              {new Date(posts[1]._createdAt).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+            <p className={styles.readMore}>Read More </p>
           </div>
           <div className={styles.screen}></div>
         </Link>
@@ -63,6 +86,17 @@ const LatestBlogs = ({ posts }: LatestBlogsProps) => {
               className={styles.postImage}
             />
           </div>
+          <div className={styles.postData}>
+            <p>{posts[2].title}</p>
+            <p>
+              {new Date(posts[2]._createdAt).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+            <p className={styles.readMore}>Read More </p>
+          </div>
           <div className={styles.screen}></div>
         </Link>
       </div>
@@ -80,6 +114,17 @@ const LatestBlogs = ({ posts }: LatestBlogsProps) => {
               height={400}
               className={styles.postImage}
             />
+          </div>
+          <div className={styles.postData}>
+            <p>{posts[3].title}</p>
+            <p>
+              {new Date(posts[3]._createdAt).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+            <p className={styles.readMore}>Read More </p>
           </div>
           <div className={styles.screen}></div>
         </Link>
