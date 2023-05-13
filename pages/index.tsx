@@ -47,11 +47,27 @@ export default function Home(props: { preview: boolean; data?: Post[] }) {
       <Layout />
       <div className="tagDiv">
         <h2 className="tagline">
-          Next gen information. LabLite, discover the web of networks and the
-          players behind every faultline
+          <span aria-hidden="true">People.</span>
+          People.
+          <span aria-hidden="true">People.</span>
+        </h2>
+        <h2 className="tagline tag-2">
+          <span aria-hidden="true">Events.</span>
+          Events.
+          <span aria-hidden="true">Events.</span>
+        </h2>
+        <h2 className="tagline tag-3">
+          <span aria-hidden="true">Organizations.</span>
+          Organizations.
+          <span aria-hidden="true">Organizations.</span>
         </h2>
       </div>
       {props.data && <LatestBlogs posts={props.data} />}
+      <div className="background">
+        <div className="blob blob-1"></div>
+        <div className="blob blob-2"></div>
+        <div className="blob blob-3"></div>
+      </div>
       {/*{props.data && <BlogList posts={props.data} />}*/}
     </Fragment>
   );
