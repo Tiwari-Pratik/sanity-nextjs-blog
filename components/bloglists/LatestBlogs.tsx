@@ -3,7 +3,7 @@ import styles from "./LatestBlogs.module.css";
 import Image from "next/image";
 import urlFor from "@/lib/urlFor";
 import Link from "next/link";
-import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
+// import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 
 interface LatestBlogsProps {
   posts: Post[];
