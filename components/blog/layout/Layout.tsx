@@ -6,8 +6,10 @@ import styles from "./Layout.module.css";
 const Layout = () => {
   return (
     <header className={styles.header}>
-      <Logo />
-      <Navigation />
+      <div className={styles.topBar}>
+        <Logo />
+        <Navigation />
+      </div>
       <SearchBox />
     </header>
   );

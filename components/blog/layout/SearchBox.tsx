@@ -3,9 +3,9 @@ import styles from "./SearchBox.module.css";
 
 const SearchBox = () => {
   return (
-    <div>
-      <input type="search" />
-      <MagnifyingGlassIcon className={styles.search} />
+    <div className={styles.searchDiv}>
+      <input type="search" className={styles.search} placeholder="Search..." />
+      <MagnifyingGlassIcon className={styles.searchIcon} />
     </div>
   );
 };

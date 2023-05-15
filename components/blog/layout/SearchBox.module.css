@@ -1,6 +1,33 @@
-.search {
+.searchIcon {
   width: 24px;
   height: 24px;
-  margin: 0 1rem;
+  margin: 0 0 0 5rem;
   color: white;
+}
+
+.searchDiv {
+  width: 50%;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search {
+  width: 80%;
+  border-radius: 150px;
+  height: 2rem;
+  border: none;
+  /* transform: scale(1) translateY(0%); */
+  transition: transform 300ms;
+  /* margin-right: auto; */
+  padding: 0.3em 1em;
+}
+
+.search:focus {
+  border: none;
+  outline: none;
+  transform: scaleX(1.4);
+  /* margin-right: auto; */
+  padding: 0.3em 1em;
 }
