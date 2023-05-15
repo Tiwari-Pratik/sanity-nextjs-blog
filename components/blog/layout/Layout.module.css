@@ -5,9 +5,9 @@
   margin: 1rem auto;
   /* justify-content: space-between; */
   /* align-items: center; */
-  background-color: #1a1a1a;
+  background-color: transparent;
   background: rgba(15, 15, 15, 0.6);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 150px;
