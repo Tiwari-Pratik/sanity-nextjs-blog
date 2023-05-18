@@ -1,0 +1,10 @@
+.posts {
+  /* margin-left: 1rem; */
+  padding: 0 0.5rem;
+}
+
+.postsLink {
+  text-decoration: none;
+  color: white;
+  font-size: 1.6rem;
+}

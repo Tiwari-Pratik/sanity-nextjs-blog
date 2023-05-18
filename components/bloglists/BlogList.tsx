@@ -10,7 +10,6 @@ interface BlogListProps {
 const BlogList = ({ posts }: BlogListProps) => {
   return (
     <div>
-      <hr />
       <div className={styles.container}>
         {posts.map((post) => {
           return (

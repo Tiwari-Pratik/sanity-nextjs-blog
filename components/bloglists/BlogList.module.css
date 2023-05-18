@@ -8,8 +8,11 @@
   /* background-color: red; */
   /* justify-items: stretch; */
   /* align-items: stretch; */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
   grid-gap: 2rem;
+  width: 80%;
+  margin: 1rem auto;
+  justify-content: center;
 }
 
 .postContainer {
@@ -24,8 +27,17 @@
   justify-content: space-between;
   min-height: 420px;
   border-radius: 3em;
-  background-color: rgba(10, 10, 10, 0.8);
+  background-color: rgba(100, 100, 100, 0.8);
   filter: blur(0.5);
+}
+
+.postContainer:hover {
+  background-color: white;
+  /* color: black; */
+}
+
+.postContainer:hover .postDesc {
+  color: black;
 }
 .post {
   /* width: 100%; */
@@ -40,7 +52,7 @@
 .postImage {
   width: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: top;
 }
 
 .postData {

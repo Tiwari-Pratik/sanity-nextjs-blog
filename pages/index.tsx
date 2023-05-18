@@ -5,7 +5,7 @@ import { client } from "../lib/sanity.client";
 import { PreviewSuspense } from "next-sanity/preview";
 // import BlogList from "../components/bloglists/BlogList";
 import LatestBlogs from "@/components/bloglists/LatestBlogs";
-import Image from "next/image";
+// import Image from "next/image";
 // import bnwImage from "../images/colorImage.png";
 // import PreviewBlogList from "../components/bloglists/PreviewBlogList";
 
