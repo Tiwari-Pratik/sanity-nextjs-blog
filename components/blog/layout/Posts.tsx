@@ -7,6 +7,12 @@ const Posts = () => {
       <Link href="/posts" className={styles.postsLink}>
         All Posts
       </Link>
+      <Link href="/studio" className={styles.postsLink}>
+        Studio
+      </Link>
+      <Link href="/dashboard" className={styles.postsLink}>
+        Dashboard
+      </Link>
     </div>
   );
 };
