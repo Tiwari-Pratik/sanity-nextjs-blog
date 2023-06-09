@@ -50,3 +50,7 @@
 .button:active {
   transform: scale(0.9);
 }
+
+.error {
+  color: red;
+}
